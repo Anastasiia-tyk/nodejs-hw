@@ -7,6 +7,7 @@ import dotenv from 'dotenv';
 import { logger } from './middleware/logger.js';
 import { errorHandler } from './middleware/errorHandler.js';
 import { notFoundHandler } from './middleware/notFoundHandler.js';
+import { connectMongoDB } from './db/connectMongoDB.js';
 
 dotenv.config();
 
@@ -30,13 +31,11 @@ app.get('/notes/:noteId', (req, res) => {
   });
 });
 
-app.get('/test-error', () => {
-  throw new Error('Simulated server error');
-});
+app.use(notFoundHandler);
 
 app.use(errorHandler);
 
-app.use(notFoundHandler);
+await connectMongoDB();
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
