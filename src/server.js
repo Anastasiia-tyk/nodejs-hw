@@ -9,6 +9,8 @@ import { errorHandler } from './middleware/errorHandler.js';
 import { notFoundHandler } from './middleware/notFoundHandler.js';
 import { connectMongoDB } from './db/connectMongoDB.js';
 
+import notesRoutes from './routes/notesRoutes.js';
+
 dotenv.config();
 
 const app = express();
@@ -18,18 +20,7 @@ app.use(express.json());
 app.use(cors());
 app.use(logger);
 
-app.get('/notes', (req, res) =>  {
-  res.status(200).json({
-    message: "Retrieved all notes",
-  });
-});
-
-app.get('/notes/:noteId', (req, res) => {
-  const { noteId } = req.params;
-  res.status(200).json({
-    message: `Retrieved note with ID: ${noteId}`,
-  });
-});
+app.use(notesRoutes);
 
 app.use(notFoundHandler);
 
