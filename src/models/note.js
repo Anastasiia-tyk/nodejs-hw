@@ -19,6 +19,8 @@ const noteSchema = new Schema(
       enum: ['Work', 'Personal', 'Meeting', 'Shopping', 'Ideas', 'Travel', 'Finance', 'Health', 'Important', 'Todo'],
       default: 'Todo',
     },
+  },
+  {
     timestamps: true,
     versionKey: false,
   }
