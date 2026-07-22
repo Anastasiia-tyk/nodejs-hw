@@ -3,6 +3,7 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import { errors } from 'celebrate';
 
 import { logger } from './middleware/logger.js';
 import { errorHandler } from './middleware/errorHandler.js';
@@ -23,6 +24,8 @@ app.use(logger);
 app.use(notesRoutes);
 
 app.use(notFoundHandler);
+
+app.use(errors());
 
 app.use(errorHandler);
 
