@@ -4,7 +4,20 @@ import { Note } from '../models/note.js';
 import createHttpError from 'http-errors';
 
 export const getAllNotes = async (req, res) => {
-  const notes = await Note.find();
+  const { tag, search } = req.query;
+  const filter = {};
+
+  if (tag) {
+    filter.tag = tag;
+  }
+  if (search) {
+    filter.$or = [
+      { title: { $regex: search, $options: 'i' } },
+      { content: { $regex: search, $options: 'i' } },
+    ];
+  }
+
+  const notes = await Note.find(filter);
   res.status(200).json(notes);
 };
 
